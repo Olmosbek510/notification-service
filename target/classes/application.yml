@@ -6,7 +6,6 @@ spring:
     username: notification-service-user
     password: myPass
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: none
@@ -21,10 +20,7 @@ spring:
         notificationExchange: "notification.exchange"
       queues:
         task: "notification.task"
-        error: "notification.task"
-    listener:
-      simple:
-        default-requeue-rejected: false
+        error: "notification.error"
     host: localhost
     port: 5672
     username: guest
@@ -38,3 +34,10 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yml
 server:
   port: 8050
+management:
+  tracing:
+    sampling:
+      probability: 1
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans

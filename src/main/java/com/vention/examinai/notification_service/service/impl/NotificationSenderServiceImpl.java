@@ -14,7 +14,7 @@ public class NotificationSenderServiceImpl implements NotificationSenderService 
 
     @Override
     public void sendPersonalNotification(TaskNotificationRequest taskNotificationRequest) {
-        // todo: fetch sender and recipient details from other service based on ids
+        // todo: fetch sender and recipient details from other service based on their ids
         // todo: integrate with real mail
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
