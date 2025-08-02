@@ -2,6 +2,7 @@ package com.vention.examinai.notification_service.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -35,9 +36,8 @@ public class PersonalNotification {
     @Column(nullable = false)
     private String message;
 
-    @Column(length = 100, nullable = false)
-    private String status;
-
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
 }

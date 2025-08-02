@@ -1,0 +1,1 @@
+ALTER TABLE personal_notification DROP COLUMN status
