@@ -1,6 +1,9 @@
 package com.vention.examinai.notification_service.config;
 
 
+import com.vention.examinai.notification_service.enums.EmailExchange;
+import com.vention.examinai.notification_service.enums.EmailQueueName;
+import com.vention.examinai.notification_service.enums.EmailRoutingKey;
 import io.micrometer.tracing.Tracer;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +55,38 @@ public class RabbitMQConfig {
         return QueueBuilder.durable(ERROR_QUEUE).build();
     }
 
+    @Bean
+    public DirectExchange emailExchange() {
+        return new DirectExchange(EmailExchange.DIRECT_EMAIL.getValue());
+    }
+
+    @Bean
+    public Queue confirmationEmailQueue() {
+        return QueueBuilder.durable(EmailQueueName.CONFIRMATION_EMAIL.getValue())
+                .withArgument("x-dead-letter-exchange", EmailExchange.DIRECT_EMAIL.getValue())
+                .withArgument("x-dead-letter-routing-key", EmailRoutingKey.CONFIRMATION_DLQ.getValue())
+                .build();
+    }
+
+    @Bean
+    public Queue registrationSuccessQueue() {
+        return new Queue(EmailQueueName.REGISTRATION_SUCCESS.getValue());
+    }
+
+    @Bean
+    public Queue confirmationEmailDlqQueue() {
+        return new Queue(EmailQueueName.CONFIRMATION_DLQ.getValue());
+    }
+
+    @Bean
+    public Queue retryQueue() {
+        return QueueBuilder.durable(EmailQueueName.RETRY.getValue())
+                .withArgument("x-dead-letter-exchange", EmailExchange.DIRECT_EMAIL.getValue())
+                .withArgument("x-dead-letter-routing-key", EmailRoutingKey.CONFIRMATION_EMAIL.getValue())
+                .withArgument("x-message-ttl", 60000)
+                .build();
+    }
+
     // Only task messages go to taskQueue
     @Bean
     public Binding taskBinding() {
@@ -66,6 +101,38 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(errorQueue())
                 .to(notificationExchange())
                 .with("error.#");
+    }
+
+    @Bean
+    public Binding confirmationEmailBinding() {
+        return BindingBuilder
+                .bind(confirmationEmailQueue())
+                .to(emailExchange())
+                .with(EmailRoutingKey.CONFIRMATION_EMAIL.getValue());
+    }
+
+    @Bean
+    public Binding registrationSuccessBinding() {
+        return BindingBuilder
+                .bind(registrationSuccessQueue())
+                .to(emailExchange())
+                .with(EmailRoutingKey.REGISTRATION_SUCCESS.getValue());
+    }
+
+    @Bean
+    public Binding confirmationDlqBinding() {
+        return BindingBuilder
+                .bind(confirmationEmailDlqQueue())
+                .to(emailExchange())
+                .with(EmailRoutingKey.CONFIRMATION_DLQ.getValue());
+    }
+
+    @Bean
+    public Binding retryBinding() {
+        return BindingBuilder
+                .bind(retryQueue())
+                .to(emailExchange())
+                .with(EmailRoutingKey.RETRY.getValue());
     }
 
     @Bean
