@@ -2,6 +2,7 @@
 # Compiled class file
 *.class
 
+
 # Log file
 *.log
 
@@ -140,6 +141,7 @@ local.properties
 # sbteclipse plugin
 .target
 
+
 # Tern plugin
 .tern-project
 
@@ -161,7 +163,16 @@ local.properties
 .scala_dependencies
 .worksheet
 
+# Maven build folder
+target/
+
+# IntelliJ IDEA settings
+.idea/
+
+
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
+
+
 
