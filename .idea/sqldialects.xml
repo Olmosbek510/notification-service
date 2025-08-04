@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/changelog/changes/001-create-personal-notification-table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/changelog/changes/002-remove-status-column-from-notification-table.sql" dialect="GenericSQL" />
+  </component>
+</project>

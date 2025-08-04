@@ -1,0 +1,12 @@
+CREATE TABLE personal_notification (
+id BIGSERIAL PRIMARY KEY NOT NULL,
+type VARCHAR(100) NOT NULL,
+recipient_id VARCHAR(100) NOT NULL,
+sender_id VARCHAR(100) NOT NULL,
+subject VARCHAR(500) NOT NULL,
+message TEXT NOT NULL,
+status VARCHAR(100) NOT NULL,
+created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+ALTER TABLE personal_notification ADD CONSTRAINT chk_message_length CHECK (length(message) <= 50000);
