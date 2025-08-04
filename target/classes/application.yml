@@ -20,7 +20,9 @@ spring:
         notificationExchange: "notification.exchange"
       queues:
         task: "notification.task"
+        task-id: "notification.task.listener"
         error: "notification.error"
+        error-id: "notification.error.listener"
     host: localhost
     port: 5672
     username: guest
