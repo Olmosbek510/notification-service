@@ -19,6 +19,8 @@ spring:
       exchanges:
         notificationExchange: "notification.exchange"
       queues:
+        exceptions-text: "exceptions.to.admins"
+        exceptions-csv: "exceptions.to.admins.csv"
         task: "notification.task"
         task-id: "notification.task.listener"
         error: "notification.error"
@@ -28,6 +30,7 @@ spring:
     username: guest
     password: guest
   mail:
+    from: hello@demomailtrap.co
     host: smtp.mailtrap.io
     port: 587
     username: 214bf150d2abab

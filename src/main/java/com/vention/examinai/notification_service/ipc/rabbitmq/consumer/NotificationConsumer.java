@@ -26,7 +26,7 @@ public class NotificationConsumer {
     private final PersonalNotificationService personalNotificationService;
     private final NotificationSenderService notificationSenderService;
     private final ExceptionReporter exceptionReporter;
-
+    private final ObjectMapper objectMapper;
     @RabbitListener(id = "${spring.rabbitmq.notification.queues.task-id}", queues = "${spring.rabbitmq.notification.queues.task}")
     public void handleTaskNotification(@Valid TaskNotificationRequest taskNotificationRequest, Message rawMessage) throws IOException {
         String traceId = MDC.get("traceId");
@@ -39,14 +39,14 @@ public class NotificationConsumer {
             }
 
             if (taskNotificationRequest == null) {
-                taskNotificationRequest = new ObjectMapper()
+                taskNotificationRequest = objectMapper
                         .readValue(rawMessage.getBody(), TaskNotificationRequest.class);
             }
 
             System.out.println("Processing task: " + taskNotificationRequest);
 
-            notificationSenderService.sendPersonalNotification(taskNotificationRequest);
             personalNotificationService.save(taskNotificationRequest);
+            notificationSenderService.sendPersonalNotification(taskNotificationRequest);
 
         } catch (Exception e) {
             exceptionReporter.report(

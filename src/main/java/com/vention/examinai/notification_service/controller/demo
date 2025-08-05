@@ -1,0 +1,9 @@
+{
+  "type": "TASK_CREATED",
+  "recipientId": "12345",
+  "senderId": "67890",
+  "subject": "New Task Assigned",
+  "message": "You have been assigned a new task. Please check your dashboard for details."
+}
+
+

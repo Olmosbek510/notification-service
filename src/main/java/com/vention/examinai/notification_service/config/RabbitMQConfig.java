@@ -28,6 +28,8 @@ public class RabbitMQConfig {
     public static String EXCHANGE_NAME;
     public static String TASK_QUEUE;
     public static String ERROR_QUEUE;
+    public static String EXCEPTIONS_TO_ADMINS;
+    public static String EXCEPTIONS_TO_ADMINS_CSV;
 
     private final Environment environment;
 
@@ -36,6 +38,8 @@ public class RabbitMQConfig {
         EXCHANGE_NAME = environment.getProperty("spring.rabbitmq.notification.exchanges.notificationExchange");
         TASK_QUEUE = environment.getProperty("spring.rabbitmq.notification.queues.task");
         ERROR_QUEUE = environment.getProperty("spring.rabbitmq.notification.queues.error");
+        EXCEPTIONS_TO_ADMINS = environment.getProperty("spring.rabbitmq.notification.queues.exceptions-text");
+        EXCEPTIONS_TO_ADMINS_CSV = environment.getProperty("spring.rabbitmq.notification.queues.exceptions-csv");
     }
 
     @Bean
@@ -134,6 +138,31 @@ public class RabbitMQConfig {
                 .to(emailExchange())
                 .with(EmailRoutingKey.RETRY.getValue());
     }
+
+    @Bean
+    public Queue exceptionsTextQueue() {
+        return QueueBuilder.durable(EXCEPTIONS_TO_ADMINS).build();
+    }
+
+    @Bean
+    public Queue exceptionsCsvQueue() {
+        return QueueBuilder.durable(EXCEPTIONS_TO_ADMINS_CSV).build();
+    }
+
+    @Bean
+    public Binding exceptionsTextBinding() {
+        return BindingBuilder.bind(exceptionsTextQueue())
+                .to(notificationExchange())
+                .with(EXCEPTIONS_TO_ADMINS);
+    }
+
+    @Bean
+    public Binding exceptionsCsvBinding() {
+        return BindingBuilder.bind(exceptionsCsvQueue())
+                .to(notificationExchange())
+                .with(EXCEPTIONS_TO_ADMINS_CSV);
+    }
+
 
     @Bean
     public MessageConverter jsonMessageConverter() {
