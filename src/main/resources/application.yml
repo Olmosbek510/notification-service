@@ -28,6 +28,7 @@ spring:
     username: guest
     password: guest
   mail:
+    from: hello@demomailtrap.co
     host: smtp.mailtrap.io
     port: 587
     username: 214bf150d2abab
