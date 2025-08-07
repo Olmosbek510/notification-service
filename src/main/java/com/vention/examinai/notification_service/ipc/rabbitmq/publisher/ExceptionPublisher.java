@@ -15,7 +15,7 @@ public class ExceptionPublisher {
 
     public void publishException(ErrorNotification notification) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE_NAME,
+                RabbitMQConfig.NOTIFICATION_EXCHANGE,
                 "error.notification",
                 notification
         );

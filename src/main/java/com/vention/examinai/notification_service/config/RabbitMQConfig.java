@@ -25,7 +25,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class RabbitMQConfig {
 
-    public static String EXCHANGE_NAME;
+    public static String NOTIFICATION_EXCHANGE;
     public static String TASK_QUEUE;
     public static String ERROR_QUEUE;
     public static String EXCEPTIONS_TO_ADMINS;
@@ -35,7 +35,7 @@ public class RabbitMQConfig {
 
     @PostConstruct
     private void postConstruct() {
-        EXCHANGE_NAME = environment.getProperty("spring.rabbitmq.notification.exchanges.notificationExchange");
+        NOTIFICATION_EXCHANGE = environment.getProperty("spring.rabbitmq.notification.exchanges.notificationExchange");
         TASK_QUEUE = environment.getProperty("spring.rabbitmq.notification.queues.task");
         ERROR_QUEUE = environment.getProperty("spring.rabbitmq.notification.queues.error");
         EXCEPTIONS_TO_ADMINS = environment.getProperty("spring.rabbitmq.notification.queues.exceptions-text");
@@ -44,7 +44,7 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange notificationExchange() {
-        return ExchangeBuilder.topicExchange(EXCHANGE_NAME)
+        return ExchangeBuilder.topicExchange(NOTIFICATION_EXCHANGE)
                 .durable(true)
                 .build();
     }

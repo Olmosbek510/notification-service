@@ -1,6 +1,7 @@
 package com.vention.examinai.notification_service.service.impl;
 
-import com.vention.examinai.notification_service.dto.request.TaskNotificationRequest;
+import com.vention.examinai.notification_service.dto.request.PersonalNotificationRequest;
+import com.vention.examinai.notification_service.dto.response.PersonalNotificationResponse;
 import com.vention.examinai.notification_service.mapper.PersonalNotificationMapper;
 import com.vention.examinai.notification_service.model.PersonalNotification;
 import com.vention.examinai.notification_service.repository.PersonalNotificationRepository;
@@ -17,16 +18,19 @@ public class PersonalNotificationServiceImpl implements PersonalNotificationServ
     private final PersonalNotificationMapper personalNotificationMapper;
 
     @Override
-    public Long save(TaskNotificationRequest taskNotificationRequest) {
-        PersonalNotification personalNotification =
-                personalNotificationMapper.toEntity(taskNotificationRequest);
+    public PersonalNotificationResponse save(PersonalNotificationRequest personalNotificationRequest) {
+        log.info("Received request to save personal notification for user ID: {}", personalNotificationRequest.recipientId());
 
-        log.info("""
-                Personal Notification before persisting:
-                %s
-                """.formatted(personalNotification));
+        PersonalNotification personalNotification =
+                personalNotificationMapper.toEntity(personalNotificationRequest);
+
+        log.debug("Mapped PersonalNotification entity before persistence: {}", personalNotification);
 
         PersonalNotification savedNotification = personalNotificationRepository.save(personalNotification);
-        return savedNotification.getId();
+
+        log.info("Successfully saved personal notification with ID: {}", savedNotification.getId());
+
+        return personalNotificationMapper.toNotificationResponse(savedNotification);
     }
+
 }

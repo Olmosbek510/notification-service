@@ -30,11 +30,17 @@ spring:
     username: guest
     password: guest
   mail:
-    from: hello@demomailtrap.co
-    host: smtp.mailtrap.io
+    host: smtp.gmail.com
     port: 587
-    username: 214bf150d2abab
-    password: a71dd60964d824
+    username: examinai.notifications@gmail.com
+    password: wzmv wedc pnxa cpza
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    from: examinai.notifications@gmail.com
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
 server:
@@ -46,3 +52,5 @@ management:
   zipkin:
     tracing:
       endpoint: http://localhost:9411/api/v2/spans
+
+#      wzmv wedc pnxa cpza

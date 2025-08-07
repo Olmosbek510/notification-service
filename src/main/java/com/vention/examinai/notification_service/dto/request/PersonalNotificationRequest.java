@@ -3,7 +3,7 @@ package com.vention.examinai.notification_service.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record TaskNotificationRequest(
+public record PersonalNotificationRequest(
         @NotBlank(message = "Type is required")
         String type,
 
