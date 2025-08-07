@@ -16,7 +16,7 @@ services:
       - examin-ai-net
 
   postgres:
-    container_name: notification-service-db
+    container_name: examin-ai-postgres-db
     image: postgres
     environment:
       POSTGRES_DB: postgres

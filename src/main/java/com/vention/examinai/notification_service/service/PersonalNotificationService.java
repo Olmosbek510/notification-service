@@ -1,7 +1,8 @@
 package com.vention.examinai.notification_service.service;
 
-import com.vention.examinai.notification_service.dto.request.TaskNotificationRequest;
+import com.vention.examinai.notification_service.dto.request.PersonalNotificationRequest;
+import com.vention.examinai.notification_service.dto.response.PersonalNotificationResponse;
 
 public interface PersonalNotificationService {
-    Long save(TaskNotificationRequest taskNotificationRequest);
+    PersonalNotificationResponse save(PersonalNotificationRequest personalNotificationRequest);
 }
