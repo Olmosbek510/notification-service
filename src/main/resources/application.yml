@@ -31,7 +31,6 @@ spring:
     password: guest
   mail:
     host: smtp.gmail.com
-    from: hello@demomailtrap.co
     port: 587
     username: examinai.notifications@gmail.com
     password: wzmv wedc pnxa cpza
