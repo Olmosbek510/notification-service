@@ -27,6 +27,9 @@ public class NotificationConsumer {
             queues = "${spring.rabbitmq.notification.queues.task}"
     )
     public void handleTaskNotification(@Valid PersonalNotificationRequest personalNotificationRequest, Message rawMessage) {
+    @RabbitListener(id = "${spring.rabbitmq.notification.queues.task-id}", queues = "${spring.rabbitmq.notification.queues.task}")
+    public void handleTaskNotification(@Valid TaskNotificationRequest taskNotificationRequest, Message rawMessage) throws IOException {
+        String traceId = MDC.get("traceId");
         try {
             String typeId = (String) rawMessage.getMessageProperties().getHeaders().get("__TypeId__");
 
