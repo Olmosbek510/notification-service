@@ -9,6 +9,7 @@ import com.vention.examinai.notification_service.service.PersonalNotificationSer
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,6 @@ public class NotificationConsumer {
             queues = "${spring.rabbitmq.notification.queues.task}"
     )
     public void handleTaskNotification(@Valid PersonalNotificationRequest personalNotificationRequest, Message rawMessage) {
-    @RabbitListener(id = "${spring.rabbitmq.notification.queues.task-id}", queues = "${spring.rabbitmq.notification.queues.task}")
-    public void handleTaskNotification(@Valid TaskNotificationRequest taskNotificationRequest, Message rawMessage) throws IOException {
-        String traceId = MDC.get("traceId");
         try {
             String typeId = (String) rawMessage.getMessageProperties().getHeaders().get("__TypeId__");
 
